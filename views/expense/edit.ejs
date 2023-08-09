@@ -1,0 +1,59 @@
+<% layout('layout.ejs') %>
+<div class="row" id="appNavigation my-3">
+    <div class="col">
+    <button class="btn btn-sm btn-secondary float-start" id="backButton">Go Back</button>
+</div>
+    <div class="col">
+        <a href="/expenses/create" class="btn btn-primary my-3 fload-end">New Expense</a>
+    </div>
+</div>
+
+<div class="container mt-5">
+
+
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h1 class="mb-4">Edit Expense</h1>
+            <form action="/expenses/<%= expense._id %>" method="POST">
+                <div class="form-group">
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" name="amount" class="form-control" value="<%= expense.amount %>" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid amount.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" class="form-control" value="<%= moment(expense.date).format('YYYY-MM-DD') %>" required>
+                    <div class="invalid-feedback">
+                        Please select a valid date.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" class="form-control"><%= expense.description %></textarea>
+                </div>
+               
+                <div class="form-group">
+                    <label for="tags">Tags:</label>
+                    <select id="tags" name="tags[]" class="form-control select2" multiple="multiple">
+                        <% tags.forEach(tag => { %>
+                        <option value="<%= tag._id %>" <% if (expense.tags.includes(tag._id)) { %>selected<% } %>><%= tag.name %></option>
+                        <% }); %>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select at least one tag.
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>
+<script src="/js/tableSort.js"></script>

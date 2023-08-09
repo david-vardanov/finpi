@@ -1,0 +1,12 @@
+<% layout('layout.ejs') %>
+
+
+<div class="container vh-100">
+    <div id="flash-messages-container"></div>
+    <h1>Dashboard</h1>
+    <p>Welcome to your dashboard <%= user.username %></p>
+    <a href="/expenses/create" class="btn btn-primary btn-sm">New expense</a>
+    <a href="/expenses/resons/new" class="btn btn-primary btn-sm mx-3">New reason</a>
+    <a href="/expenses/categories/new" class="btn btn-primary btn-sm">New Category</a>
+
+</div>

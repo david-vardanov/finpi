@@ -1,0 +1,9 @@
+<% if (typeof flash !== 'undefined' && flash.validationErrors) { %>
+  <div class="alert alert-danger mx-5" role="alert">
+    <ul>
+      <% flash.validationErrors.forEach((error) => { %>
+        <li><%= error %></li>
+      <% }); %>
+    </ul>
+  </div>
+<% } %>

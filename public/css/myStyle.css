@@ -1,0 +1,4 @@
+.tags-cell {
+    white-space: normal; /* This will allow the content to wrap */
+    max-width: 200px; /* Set the maximum width you desire */
+}

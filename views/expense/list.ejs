@@ -1,0 +1,139 @@
+<% layout('layout.ejs') %>
+
+
+
+<div class="container my-5">
+    <h1 class="mb-4">Expenses</h1>
+    <div class="row my-3">
+      <div class="col">
+        <a href="/expenses/create" class="btn btn-primary mb-3">New Expense</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <h4>Calculations</h4>
+        <div class="row">
+          <div class="col-md-4">
+            <p><strong>Today spent: <%= calculations.todaySpent %></strong> </p>
+            <p><strong>Yesterday spent: <%=calculations.yesterdaySpent  %> </strong> </p>
+           
+          </div>
+          <div class="col-md-4">
+            <p><strong>This week spent: <%=calculations.weekSpent  %> </strong> </p>
+            <p><strong>This month spent: <%=calculations.monthSpent  %> </strong> </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h4>Filtering</h4>
+        <form id="filter-form" action="/expenses/filter" method="POST">
+          <div class="row mt-3">
+            <div class="col">
+              <label for="dateFrom">Date From:</label>
+              <input type="date" id="dateFrom" name="dateFrom" class="form-control">
+            </div>
+            <div class="col">
+              <label for="dateTo">Date To:</label>
+              <input type="date" id="dateTo" name="dateTo" class="form-control">
+            </div>
+            
+          <div class="row mb-3">
+            <div class="col">
+              <button type="submit" class="btn btn-primary mt-3">Filter</button>
+            </div>
+    
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <!-- CARD VIEW -->
+<div class="d-lg-none">
+  <% expenses.forEach(expense => { %>
+      <div class="card my-3">
+        <div class="card-header">
+          <p class="card-title">
+            <strong>Date:</strong> <%= moment(expense.date).format('YYYY-MM-DD') %>
+          </p>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6">
+              <strong>Amount:</strong> <%= expense.amount %>
+              <div><strong>Description:</strong> <%= expense.description %></div>
+            </div>
+            <div class="col-6">
+              <strong>Tags:</strong>
+              <% expense.tags.forEach(tag => { %>
+                  <span class="badge bg-primary"><%= tag.name %></span>
+              <% }); %>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <a href="/expenses/<%= expense._id %>/edit" class="btn btn-info">Edit</a>
+          <form action="/expenses/<%= expense._id %>/delete" method="POST" class="d-inline  delete-button">
+              <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+          
+          <!-- Add more fields as needed -->
+      </div>
+  <% }); %>
+</div>
+
+
+<div class="table-responsive d-none d-lg-block">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <p class="card-title">List of expenses</p>
+          </div>
+          <div class="card-body">
+            <table class="table" id="expensesTable">
+              <thead>
+                <tr>
+                    <th data-sort="amount">Amount</th>
+                    <th data-sort="date">Date</th>
+                    <th>Description</th>
+                    <th>Tags</th>
+                    <th>Actions</th>
+                </tr>
+              </thead>    
+              <tbody>
+                  <% expenses.forEach(expense => { %>
+                      <tr>
+                          <td><%= expense.amount %></td>
+                          <td><%= moment(expense.date).calendar(null, {
+                              sameDay: '[Today at] h:mm A',
+                              nextDay: '[Tomorrow at] h:mm A',
+                              nextWeek: 'dddd [at] h:mm A',
+                              lastDay: '[Yesterday at] h:mm A',
+                              lastWeek: '[Last] dddd [at] h:mm A',
+                              sameElse: 'DD/MM/YYYY [at] h:mm A'
+                          }) %></td>
+                          <td><%= expense.description %></td>
+                          <td class="tags-cell">
+                              <% expense.tags.forEach(tag => { %>
+                                <a href="/expenses/filterByTag/<%= tag._id %>" class="badge bg-primary my-1"><%= tag.name %></a>
+                              <% }); %>
+                          </td>
+                          <td>
+                              <a href="/expenses/<%= expense._id %>/edit" class="btn btn-info">Edit</a>
+                              <form action="/expenses/<%= expense._id %>/delete" method="POST" class="d-inline  delete-button">
+                                  <button type="submit" class="btn btn-danger">Delete</button>
+                              </form>
+                          </td>
+                      </tr>
+                  <% }); %>
+            </tbody>
+    </table>
+</div>
+  </div>
+</div>
+</div>
+</div>
+
+
+
+

@@ -1,0 +1,13 @@
+<%- include('partials/head.ejs') %>
+
+<div class="pageContent">
+  <%- include('partials/flash.ejs') %>
+  <%if(user) { %>
+    <div class="container my-3">
+    </div>
+  <% } %>
+  <div class="container ">
+    <%- body %>
+  </div>
+</div>
+  <%- include('partials/footer.ejs') %>
